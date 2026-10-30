@@ -1,6 +1,6 @@
 # Authentication and account management
 
-CampusStack uses Django session authentication. Session cookies are `HttpOnly` and `SameSite=Lax`; cookies are marked `Secure` whenever `DJANGO_DEBUG` is false. Django's CSRF middleware protects unsafe requests. Do not put passwords, cookies, or credentials in application logs.
+CampusStack uses Django session authentication. Session cookies are `HttpOnly`; by default they use `SameSite=Lax` and are marked `Secure` whenever `DJANGO_DEBUG` is false. When `CROSS_SITE_SESSION_COOKIES=True`, both session and CSRF cookies use `SameSite=None; Secure`, as required for a cross-site frontend/API deployment. Django's CSRF middleware protects unsafe requests in every environment. Do not put passwords, cookies, or credentials in application logs.
 
 ## CSRF flow
 

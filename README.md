@@ -51,7 +51,7 @@ $env:DJANGO_DEBUG = "True"
 $env:DJANGO_ALLOWED_HOSTS = "localhost,127.0.0.1"
 ```
 
-SQLite is used when no PostgreSQL settings are provided. To use PostgreSQL (including Neon), set `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, and optionally `POSTGRES_PORT`/`POSTGRES_SSLMODE` in the process environment. For Neon, use SSL mode `require`. `.env.example` documents these names; Django reads process environment variables directly and does not load `.env` files.
+SQLite is used when no PostgreSQL settings are provided. To use PostgreSQL (including Neon), set `DATABASE_URL` to a PostgreSQL connection URL in the process environment; SSL is required for this URL. The legacy `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, `POSTGRES_PORT`, and `POSTGRES_SSLMODE` variables remain supported. `.env.example` documents the settings; Django reads process environment variables directly and does not load `.env` files.
 
 ## Development commands
 
@@ -83,6 +83,8 @@ Run a production build or preview it locally with:
 npm run build
 npm run preview
 ```
+
+See [docs/deployment.md](docs/deployment.md) for Render, Neon and Hostinger deployment configuration, cross-site session/CSRF settings, verification, and rollback steps.
 
 Start Django separately from the repository root so the Vite proxy can reach it:
 

@@ -14,8 +14,10 @@ __pycache__/
 node_modules/
 frontend/css/output.css
 frontend/dist/
+backend/staticfiles/
 
 # Local databases, logs, caches and temporary files
+.pip-tmp/
 *.sqlite3
 *.log
 .pytest_cache/
