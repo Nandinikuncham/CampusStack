@@ -4,32 +4,105 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f5f8fa" />
-    <title>Your workspace — CampusStack</title>
+    <meta name="description" content="Browse questions and share knowledge with your campus community on CampusStack." />
+    <title>Community — CampusStack</title>
     <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
   </head>
   <body>
-    <header class="border-b border-line bg-white">
-      <div class="site-shell flex min-h-[72px] items-center justify-between gap-4">
-        <a class="inline-flex items-center gap-3 rounded-lg" href="/" aria-label="CampusStack home">
+    <header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
+      <div class="site-shell flex min-h-[72px] items-center gap-4">
+        <a class="inline-flex shrink-0 items-center gap-3 rounded-lg" href="/pages/workspace.html" aria-label="CampusStack community home">
           <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
-          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+          <span class="hidden text-lg font-bold tracking-tight sm:inline">Campus<span class="text-brand-700">Stack</span></span>
         </a>
-        <button class="btn btn-secondary" type="button" data-logout>Log out</button>
+        <form class="mx-auto flex w-full max-w-2xl" role="search" data-question-search-form>
+          <label class="sr-only" for="question-search">Search questions</label>
+          <input class="form-field min-w-0 rounded-r-none" id="question-search" name="search" type="search" placeholder="Search questions…" autocomplete="off" />
+          <button class="btn btn-primary rounded-l-none px-4 sm:px-5" type="submit">Search</button>
+        </form>
+        <button class="btn btn-primary hidden shrink-0 opacity-70 disabled:cursor-not-allowed sm:inline-flex" type="button" disabled aria-describedby="ask-coming-soon"><span>Ask question</span><span class="text-xs font-medium">Coming soon</span></button>
+        <span class="sr-only" id="ask-coming-soon">Question creation is coming soon.</span>
+        <div class="relative shrink-0">
+          <button class="flex items-center gap-2 rounded-xl p-1.5 text-left hover:bg-brand-50 focus-visible:outline-2 focus-visible:outline-brand-600" type="button" aria-label="Current account" aria-expanded="false" aria-controls="account-menu" data-account-toggle>
+            <span class="avatar" aria-hidden="true" data-user-avatar>CS</span>
+            <span class="hidden max-w-36 truncate text-sm font-semibold sm:block" data-user-name>Loading account</span>
+            <svg class="hidden size-4 text-muted sm:block" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="m5 7 5 5 5-5" /></svg>
+          </button>
+          <div class="absolute right-0 top-full z-50 mt-2 w-56 rounded-xl border border-line bg-white p-2 shadow-card" id="account-menu" data-account-menu hidden>
+            <p class="truncate px-3 py-2 text-xs text-muted" data-user-role></p>
+            <button class="nav-link w-full text-left" type="button" data-logout>Log out</button>
+          </div>
+        </div>
       </div>
     </header>
-    <main class="site-shell py-12 sm:py-20">
-      <section class="card mx-auto max-w-2xl" aria-labelledby="workspace-heading">
-        <p class="eyebrow">CampusStack workspace</p>
-        <div class="mt-4 flex flex-wrap items-center gap-3">
-          <h1 class="text-3xl font-bold tracking-tight" data-workspace-heading>Your workspace</h1>
-          <span class="badge" data-user-role>Checking account</span>
+
+    <div class="site-shell grid gap-7 py-7 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10 lg:py-9">
+      <aside class="lg:sticky lg:top-24 lg:self-start" aria-label="Community navigation">
+        <nav class="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+          <a class="nav-link shrink-0 bg-brand-50 font-semibold text-brand-800" href="/pages/workspace.html" aria-current="page">Home</a>
+          <a class="nav-link shrink-0" href="#question-feed">Questions</a>
+          <a class="nav-link shrink-0" href="#tag-filter">Tags</a>
+          <span class="nav-link shrink-0 cursor-not-allowed opacity-55" aria-disabled="true">Profile <span class="ml-1 text-xs">Coming soon</span></span>
+          <span class="nav-link shrink-0 cursor-not-allowed opacity-55" aria-disabled="true">Following <span class="ml-1 text-xs">Coming soon</span></span>
+          <span class="nav-link shrink-0 cursor-not-allowed opacity-55" aria-disabled="true">Mentorship <span class="ml-1 text-xs">Coming soon</span></span>
+        </nav>
+        <div class="mt-6 hidden rounded-2xl border border-line bg-white p-4 lg:block">
+          <p class="text-sm font-semibold">Learn together</p>
+          <p class="mt-2 text-sm leading-6 text-muted">Find useful answers from people who know your campus.</p>
         </div>
-        <p class="mt-2 text-muted" data-user-name></p>
-        <p class="mt-5 leading-7 text-muted" data-workspace-description>Checking your signed-in session…</p>
-        <div class="alert mt-5" data-workspace-message hidden></div>
-        <a class="btn btn-secondary mt-7" href="/">Return to CampusStack home</a>
-      </section>
-    </main>
-    <script type="module" src="/js/workspace.js"></script>
+      </aside>
+
+      <main id="main-content" class="min-w-0" aria-labelledby="page-title">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="eyebrow">Your campus community</p>
+            <h1 class="mt-2 text-3xl font-bold tracking-tight" id="page-title">Questions</h1>
+            <p class="mt-2 max-w-2xl leading-6 text-muted">Explore questions, share what you know, and learn from your college community.</p>
+          </div>
+          <button class="btn btn-primary opacity-70 disabled:cursor-not-allowed sm:hidden" type="button" disabled aria-describedby="ask-coming-soon"><span>Ask question</span><span class="text-xs font-medium">Coming soon</span></button>
+        </div>
+
+        <section class="card mb-5 p-4 sm:p-5" aria-label="Question filters">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="w-full sm:max-w-xs">
+              <label class="mb-2 block text-sm font-medium" for="tag-filter">Filter by tag</label>
+              <select class="form-field" id="tag-filter" name="tag" data-tag-filter>
+                <option value="">All tags</option>
+              </select>
+            </div>
+            <div class="flex items-end gap-3">
+              <div>
+                <label class="mb-2 block text-sm font-medium" for="question-order">Sort questions</label>
+                <select class="form-field min-w-48" id="question-order" name="ordering" data-order-filter>
+                  <option value="-created_at">Newest first</option>
+                  <option value="created_at">Oldest first</option>
+                  <option value="-updated_at">Recently active</option>
+                  <option value="title">Title A–Z</option>
+                </select>
+              </div>
+              <button class="btn btn-secondary" type="button" data-clear-filters>Clear</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="mb-4 flex min-h-8 flex-wrap items-center justify-between gap-3">
+          <p class="text-sm text-muted" aria-live="polite" data-result-summary></p>
+          <p class="text-sm text-muted" data-active-filter></p>
+        </div>
+
+        <div class="mb-4" data-feed-message hidden></div>
+        <section class="space-y-4" id="question-feed" aria-label="Question feed" aria-live="polite" aria-busy="false" data-question-feed>
+          <div class="loading-state">Loading questions…</div>
+        </section>
+
+        <nav class="mt-7 flex items-center justify-between gap-4" aria-label="Question pages" data-pagination hidden>
+          <button class="btn btn-secondary" type="button" data-page-previous>Previous</button>
+          <span class="text-sm text-muted" aria-live="polite" data-page-summary></span>
+          <button class="btn btn-secondary" type="button" data-page-next>Next</button>
+        </nav>
+      </main>
+    </div>
+
+    <script type="module" src="/js/community.js"></script>
   </body>
 </html>
