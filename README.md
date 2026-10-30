@@ -16,10 +16,10 @@ backend/
   manage.py
   config/                 Django settings, URLs, ASGI and WSGI
   apps/
-    accounts/             Account and role features (foundation only)
-    profiles/             Student and faculty profiles (foundation only)
-    academics/            Academic calendar/progression (foundation only)
-    audit/                Audit logging (foundation only)
+    accounts/             Accounts, session authentication, roles and permissions
+    profiles/             Student/faculty profiles and faculty approval
+    academics/            Academic calendar and progression
+    audit/                Sensitive-action audit logging
 frontend/
   pages/                  HTML pages
   components/             Reusable UI components
@@ -58,10 +58,10 @@ python backend\manage.py migrate
 python backend\manage.py runserver
 ```
 
-The API root namespace is `/api/v1/`. Start Tailwind's watcher from the repository root after installing its CLI in the frontend phase:
+The API root namespace is `/api/v1/`. Authentication endpoints and CSRF usage are documented in [docs/authentication.md](docs/authentication.md). Create the first administrator only from a trusted local shell with `python backend\manage.py createsuperuser`; this uses Django's custom manager to assign the `ADMIN` role. There is no public administrator registration.
+
+Start Tailwind's watcher from the repository root after installing its CLI in the frontend phase:
 
 ```powershell
 npx @tailwindcss/cli -i ./frontend/css/input.css -o ./frontend/css/output.css --watch
 ```
-
-No database models or authentication flows are part of this foundation yet.

@@ -13,6 +13,13 @@ ALLOWED_HOSTS = [
     for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
     if host.strip()
 ]
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+CSRF_FAILURE_VIEW = "config.views.csrf_failure"
+COLLEGE_EMAIL_DOMAIN = os.environ.get("COLLEGE_EMAIL_DOMAIN", "gvpcew.ac.in").strip().lower()
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -94,8 +101,21 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SAMESITE = "Lax"
 
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticatedOrReadOnly"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_THROTTLE_RATES": {
+        "auth_register": "10/hour",
+        "auth_login": "10/minute",
+    },
 }
