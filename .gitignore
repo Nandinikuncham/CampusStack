@@ -13,6 +13,7 @@ __pycache__/
 # JavaScript dependencies and generated frontend output
 node_modules/
 frontend/css/output.css
+frontend/dist/
 
 # Local databases, logs, caches and temporary files
 *.sqlite3

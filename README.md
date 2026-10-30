@@ -22,10 +22,14 @@ backend/
     audit/                Sensitive-action audit logging
     questions/            Questions, tags, answers and comments
 frontend/
+  index.html             CampusStack landing page
+  package.json           Vite scripts and frontend tooling
+  vite.config.js         Tailwind integration and Django API proxy
+  assets/                Local brand assets
   pages/                  HTML pages
   components/             Reusable UI components
-  js/                     Vanilla JavaScript modules
-  css/                    Tailwind input and generated output
+  js/                     Vanilla JavaScript ES modules and API config
+  css/                    Tailwind input stylesheet
 docs/                     Project documentation
 ```
 
@@ -63,8 +67,27 @@ The API root namespace is `/api/v1/`. Authentication endpoints and CSRF usage ar
 
 Questions, tags, answers and comments API behavior is documented in [docs/content-api.md](docs/content-api.md).
 
-Start Tailwind's watcher from the repository root after installing its CLI in the frontend phase:
+## Frontend development
 
 ```powershell
-npx @tailwindcss/cli -i ./frontend/css/input.css -o ./frontend/css/output.css --watch
+cd frontend
+npm install
+npm run dev
+```
+
+Vite serves the landing page locally and proxies browser requests under `/api/` to `http://127.0.0.1:8000` by default. Set `VITE_DJANGO_PROXY_TARGET` in `frontend/.env` to change the Django development server address. `VITE_API_BASE_URL` defaults to `/api/v1`; `frontend/.env.example` lists both frontend settings. Keep credentials out of Vite environment variables because `VITE_` variables are exposed to browser code.
+
+Run a production build or preview it locally with:
+
+```powershell
+npm run build
+npm run preview
+```
+
+Start Django separately from the repository root so the Vite proxy can reach it:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+python backend\manage.py migrate
+python backend\manage.py runserver 127.0.0.1:8000
 ```

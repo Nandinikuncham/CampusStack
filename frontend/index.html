@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CampusStack is a college community for sharing knowledge, learning together, and finding guidance."
+    />
+    <meta name="theme-color" content="#f5f8fa" />
+    <title>CampusStack — Learn together, move forward</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
+  </head>
+  <body>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-3" href="#main-content">
+      Skip to content
+    </a>
+
+    <header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
+      <div class="site-shell flex min-h-[72px] items-center justify-between gap-5">
+        <a class="inline-flex items-center gap-3 rounded-lg" href="/" aria-label="CampusStack home">
+          <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+        </a>
+
+        <nav class="hidden items-center gap-1 md:flex" aria-label="Main navigation">
+          <a class="nav-link" href="#features">Explore</a>
+          <a class="nav-link" href="#how-it-works">How it works</a>
+          <a class="btn btn-secondary ml-3" href="#account-access">Log in</a>
+          <a class="btn btn-primary" href="#account-access">Sign up</a>
+        </nav>
+
+        <button
+          class="inline-flex size-11 items-center justify-center rounded-xl border border-line text-ink hover:bg-brand-50 md:hidden"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          data-menu-toggle
+        >
+          <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+
+      <nav id="mobile-menu" class="mobile-menu border-t border-line bg-white px-5 py-4 md:hidden" aria-label="Mobile navigation" data-mobile-menu hidden>
+        <div class="mx-auto flex max-w-7xl flex-col gap-2">
+          <a class="nav-link" href="#features">Explore</a>
+          <a class="nav-link" href="#how-it-works">How it works</a>
+          <a class="btn btn-secondary mt-2" href="#account-access">Log in</a>
+          <a class="btn btn-primary" href="#account-access">Sign up</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="relative isolate overflow-hidden" aria-labelledby="hero-title">
+        <div class="hero-grid pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"></div>
+        <div class="site-shell grid items-center gap-12 pb-20 pt-16 sm:pb-24 sm:pt-24 lg:grid-cols-[1.04fr_0.96fr] lg:gap-16 lg:pb-28 lg:pt-28">
+          <div class="max-w-2xl">
+            <p class="eyebrow mb-5">Knowledge grows here</p>
+            <h1 id="hero-title" class="text-balance text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.65rem]">
+              Your campus has answers. <span class="text-brand-700">Find them together.</span>
+            </h1>
+            <p class="mt-6 max-w-xl text-lg leading-8 text-muted">
+              CampusStack brings your college community together to ask better questions, share what works, and help each other move forward.
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a class="btn btn-primary" href="#account-access">
+                Join your campus
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 10h12m-5-5 5 5-5 5" />
+                </svg>
+              </a>
+              <a class="btn btn-secondary" href="#features">Explore the community</a>
+            </div>
+            <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
+              <span class="inline-flex items-center gap-2"><span class="size-2 rounded-full bg-emerald-500"></span>Built for your college</span>
+              <span class="hidden h-4 w-px bg-line sm:block" aria-hidden="true"></span>
+              <span>Students · Faculty · Alumni</span>
+            </div>
+          </div>
+
+          <div class="relative mx-auto w-full max-w-[510px]" aria-label="An illustration of a campus knowledge community">
+            <div class="absolute -inset-5 -z-10 rounded-[2.5rem] bg-brand-100/70 blur-2xl"></div>
+            <div class="card rounded-[1.75rem] p-5 sm:p-7">
+              <div class="flex items-center justify-between border-b border-line pb-5">
+                <div class="flex items-center gap-3">
+                  <span class="avatar bg-brand-700 text-white" aria-hidden="true">C</span>
+                  <div>
+                    <p class="text-sm font-semibold">Campus knowledge</p>
+                    <p class="mt-0.5 text-xs text-muted">A place to learn from one another</p>
+                  </div>
+                </div>
+                <span class="badge">Community</span>
+              </div>
+
+              <div class="py-6">
+                <p class="eyebrow">A better way to learn</p>
+                <p class="mt-2 text-xl font-semibold leading-snug">Good questions make room for good answers.</p>
+                <p class="mt-2 text-sm leading-6 text-muted">Share what you know. Find a perspective that helps you take the next step.</p>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 border-t border-line pt-5">
+                <span class="tag justify-center">Ask</span>
+                <span class="tag justify-center">Share</span>
+                <span class="tag justify-center">Grow</span>
+              </div>
+              <div class="mt-5 flex items-center justify-between rounded-xl bg-canvas px-4 py-3">
+                <span class="text-xs font-medium text-muted">Knowledge, shared locally</span>
+                <span class="inline-flex size-8 items-center justify-center rounded-lg bg-white text-brand-700" aria-hidden="true">
+                  <svg class="size-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 3v14m-7-7h14" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div class="absolute -bottom-5 -left-4 hidden items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3 shadow-card sm:flex">
+              <span class="inline-flex size-9 items-center justify-center rounded-xl bg-amber-50 text-amber-700" aria-hidden="true">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" />
+                </svg>
+              </span>
+              <span class="text-sm font-semibold">Progress through participation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="border-y border-line bg-white py-20 sm:py-24" aria-labelledby="features-title">
+        <div class="site-shell">
+          <div class="mx-auto max-w-2xl text-center">
+            <p class="eyebrow">One campus, many perspectives</p>
+            <h2 id="features-title" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Learning works better together.</h2>
+            <p class="mt-4 leading-7 text-muted">A focused space for the questions, connections, and guidance that make college life richer.</p>
+          </div>
+
+          <div class="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            <article class="card shadow-none transition-shadow hover:shadow-card">
+              <span class="mb-5 inline-flex size-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700" aria-hidden="true">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8m-8 4h5m-8 6 1.2-3.6A8 8 0 1 1 8 19.5L5 20Z" />
+                </svg>
+              </span>
+              <h3 class="text-lg font-semibold">Questions & answers</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Ask about coursework, campus life, and the things you are figuring out. Get answers from people who know your college.</p>
+            </article>
+
+            <article class="card shadow-none transition-shadow hover:shadow-card">
+              <span class="mb-5 inline-flex size-11 items-center justify-center rounded-xl bg-sky-50 text-sky-700" aria-hidden="true">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m16 0v-2a4 4 0 0 0-3-3.9M14 3.1a4 4 0 0 1 0 7.8M14 5a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+                </svg>
+              </span>
+              <h3 class="text-lg font-semibold">Community learning</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Learn alongside students, faculty, seniors, and alumni who bring different experience to the same campus conversation.</p>
+            </article>
+
+            <article class="card shadow-none transition-shadow hover:shadow-card">
+              <span class="mb-5 inline-flex size-11 items-center justify-center rounded-xl bg-amber-50 text-amber-700" aria-hidden="true">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" />
+                </svg>
+              </span>
+              <h3 class="text-lg font-semibold">Reputation that matters</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Recognize useful contributions and help thoughtful answers rise to the surface.</p>
+            </article>
+
+            <article class="card shadow-none transition-shadow hover:shadow-card">
+              <span class="mb-5 inline-flex size-11 items-center justify-center rounded-xl bg-violet-50 text-violet-700" aria-hidden="true">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a6 6 0 0 0-3.6 10.8c.8.6 1.1 1.2 1.1 2.2h5c0-1 .3-1.6 1.1-2.2A6 6 0 0 0 12 3Zm-2 16h4m-3 2h2" />
+                </svg>
+              </span>
+              <h3 class="text-lg font-semibold">Mentorship & guidance</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Connect with approved faculty and experienced students who can help you navigate what comes next.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" class="py-20 sm:py-24" aria-labelledby="how-title">
+        <div class="site-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+          <div class="max-w-lg">
+            <p class="eyebrow">Knowledge, made useful</p>
+            <h2 id="how-title" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Small contributions add up.</h2>
+            <p class="mt-4 leading-7 text-muted">CampusStack gives helpful knowledge a place to live, so more people can learn from it over time.</p>
+          </div>
+          <ol class="grid gap-4 sm:grid-cols-3">
+            <li class="rounded-2xl border border-line bg-white p-5">
+              <span class="badge">01 · Ask</span>
+              <h3 class="mt-5 font-semibold">Bring a question</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Describe what you are working through and add context that helps others respond.</p>
+            </li>
+            <li class="rounded-2xl border border-line bg-white p-5">
+              <span class="badge">02 · Share</span>
+              <h3 class="mt-5 font-semibold">Offer what you know</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Answers, comments, and experience make a conversation useful to the whole community.</p>
+            </li>
+            <li class="rounded-2xl border border-line bg-white p-5">
+              <span class="badge">03 · Grow</span>
+              <h3 class="mt-5 font-semibold">Keep learning</h3>
+              <p class="mt-2 text-sm leading-6 text-muted">Follow topics, find mentorship, and build on knowledge shared across your college.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="account-access" class="site-shell pb-20 sm:pb-24" aria-labelledby="access-title">
+        <div class="relative overflow-hidden rounded-[1.75rem] bg-brand-800 px-6 py-10 text-white sm:px-10 sm:py-12 lg:px-14">
+          <div class="pointer-events-none absolute -right-12 -top-24 size-72 rounded-full border border-white/10" aria-hidden="true"></div>
+          <div class="pointer-events-none absolute -right-2 -top-14 size-52 rounded-full border border-white/10" aria-hidden="true"></div>
+          <div class="relative max-w-2xl">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-100">Your campus community starts here</p>
+            <h2 id="access-title" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Bring your curiosity.</h2>
+            <p class="mt-4 max-w-xl leading-7 text-white/80">Sign in and account creation are coming in the next CampusStack frontend phase. For now, explore the foundation and see what the community is built for.</p>
+            <a class="btn mt-7 bg-white text-brand-800 hover:bg-brand-50" href="#features">Explore the features</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-line bg-white">
+      <div class="site-shell flex flex-col gap-5 py-7 sm:flex-row sm:items-center sm:justify-between">
+        <a class="inline-flex items-center gap-2 rounded-lg" href="/" aria-label="CampusStack home">
+          <img class="size-8" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="font-bold">CampusStack</span>
+        </a>
+        <p class="text-sm text-muted">A better place to learn from each other.</p>
+        <p class="text-sm text-muted">© <span data-current-year></span> CampusStack</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

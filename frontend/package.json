@@ -1,0 +1,16 @@
+{
+  "name": "campusstack-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ./node_modules/vite/bin/vite.js --configLoader native",
+    "build": "node ./node_modules/vite/bin/vite.js build --configLoader native",
+    "preview": "node ./node_modules/vite/bin/vite.js preview --configLoader native"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  }
+}
