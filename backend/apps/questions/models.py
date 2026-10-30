@@ -101,6 +101,15 @@ class Answer(models.Model):
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_accepted = models.BooleanField(default=False)
+    acceptance_revision = models.PositiveIntegerField(default=0)
+    acceptance_event = models.ForeignKey(
+        "ReputationEvent",
+        on_delete=models.SET_NULL,
+        related_name="accepted_answer_for",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         ordering = ("created_at",)
@@ -108,6 +117,11 @@ class Answer(models.Model):
             models.CheckConstraint(
                 condition=~Q(body=""),
                 name="questions_answer_body_nonempty",
+            ),
+            models.UniqueConstraint(
+                fields=("question",),
+                condition=Q(is_accepted=True),
+                name="questions_one_accepted_per_question",
             ),
         ]
         indexes = [
@@ -125,6 +139,164 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"Answer {self.pk} to question {self.question_id}"
+
+
+class Vote(models.Model):
+    class Value(models.IntegerChoices):
+        DOWNVOTE = -1, "Downvote"
+        UPVOTE = 1, "Upvote"
+
+    voter = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="content_votes",
+    )
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+        related_name="votes",
+        null=True,
+        blank=True,
+    )
+    answer = models.ForeignKey(
+        Answer,
+        on_delete=models.CASCADE,
+        related_name="votes",
+        null=True,
+        blank=True,
+    )
+    value = models.SmallIntegerField(choices=Value.choices)
+    is_active = models.BooleanField(default=True)
+    revision = models.PositiveIntegerField(default=1)
+    reputation_event = models.ForeignKey(
+        "ReputationEvent",
+        on_delete=models.SET_NULL,
+        related_name="current_for_votes",
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=(
+                    Q(question__isnull=False, answer__isnull=True)
+                    | Q(question__isnull=True, answer__isnull=False)
+                ),
+                name="questions_vote_exactly_one_target",
+            ),
+            models.CheckConstraint(
+                condition=Q(value__in=(-1, 1)),
+                name="questions_vote_value_valid",
+            ),
+            models.UniqueConstraint(
+                fields=("voter", "question"),
+                condition=Q(question__isnull=False),
+                name="questions_one_vote_per_question_user",
+            ),
+            models.UniqueConstraint(
+                fields=("voter", "answer"),
+                condition=Q(answer__isnull=False),
+                name="questions_one_vote_per_answer_user",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=("question", "is_active", "value"), name="votes_question_active_idx"),
+            models.Index(fields=("answer", "is_active", "value"), name="votes_answer_active_idx"),
+        ]
+
+    def clean(self):
+        super().clean()
+        if bool(self.question_id) == bool(self.answer_id):
+            raise ValidationError("A vote must target exactly one question or answer.")
+        if self.value not in self.Value.values:
+            raise ValidationError({"value": "Vote must be an upvote or downvote."})
+        target_author_id = (
+            self.question.author_id if self.question_id else self.answer.author_id
+        )
+        if self.voter_id and self.voter_id == target_author_id:
+            raise ValidationError("Users cannot vote on their own content.")
+
+    def __str__(self):
+        return f"Vote {self.value} by {self.voter_id}"
+
+
+class ReputationEvent(models.Model):
+    class EventType(models.TextChoices):
+        QUESTION_UPVOTE = "QUESTION_UPVOTE", "Question upvote"
+        QUESTION_DOWNVOTE = "QUESTION_DOWNVOTE", "Question downvote"
+        ANSWER_UPVOTE = "ANSWER_UPVOTE", "Answer upvote"
+        ANSWER_DOWNVOTE = "ANSWER_DOWNVOTE", "Answer downvote"
+        ANSWER_ACCEPTED = "ANSWER_ACCEPTED", "Accepted answer"
+        REVERSAL = "REVERSAL", "Reversal"
+
+    class SourceType(models.TextChoices):
+        VOTE = "VOTE", "Vote"
+        ANSWER_ACCEPTANCE = "ANSWER_ACCEPTANCE", "Answer acceptance"
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name="reputation_events",
+    )
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name="reputation_actions",
+        null=True,
+        blank=True,
+    )
+    event_type = models.CharField(max_length=24, choices=EventType.choices)
+    delta = models.IntegerField()
+    source_type = models.CharField(max_length=20, choices=SourceType.choices)
+    source_id = models.PositiveBigIntegerField()
+    idempotency_key = models.CharField(max_length=128, unique=True)
+    reverses = models.ForeignKey(
+        "self",
+        on_delete=models.PROTECT,
+        related_name="reversal_events",
+        null=True,
+        blank=True,
+    )
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ("created_at", "pk")
+        constraints = [
+            models.CheckConstraint(condition=~Q(delta=0), name="questions_reputation_delta_nonzero"),
+            models.CheckConstraint(
+                condition=(
+                    Q(event_type="REVERSAL", reverses__isnull=False)
+                    | (~Q(event_type="REVERSAL") & Q(reverses__isnull=True))
+                ),
+                name="questions_reputation_reversal_consistent",
+            ),
+            models.UniqueConstraint(
+                fields=("reverses",),
+                condition=Q(reverses__isnull=False),
+                name="questions_reputation_one_reversal",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=("user", "created_at"), name="reputation_user_date_idx"),
+        ]
+
+    def clean(self):
+        super().clean()
+        if self.event_type == self.EventType.REVERSAL:
+            if not self.reverses_id:
+                raise ValidationError({"reverses": "A reversal must reference its original event."})
+            if self.reverses.event_type == self.EventType.REVERSAL:
+                raise ValidationError({"reverses": "A reversal cannot reverse another reversal."})
+            if self.delta != -self.reverses.delta or self.user_id != self.reverses.user_id:
+                raise ValidationError("Reversal must exactly compensate its original event.")
+        elif self.reverses_id:
+            raise ValidationError({"reverses": "Only reversal events may reference another event."})
+
+    def __str__(self):
+        return f"{self.event_type} {self.delta:+d} for user {self.user_id}"
 
 
 class Comment(models.Model):

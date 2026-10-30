@@ -1,10 +1,13 @@
 from django.db import transaction
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from apps.accounts.models import User
 from apps.accounts.permissions import IsCampusAdministrator
@@ -14,16 +17,27 @@ from .pagination import ContentPagination
 from .permissions import IsAuthorOrCampusAdministrator
 from .serializers import (
     AnswerSerializer,
+    ContentAuthorSerializer,
     CommentReadSerializer,
     CommentUpdateSerializer,
     CommentWriteSerializer,
     QuestionSerializer,
     TagSerializer,
+    VoteInputSerializer,
+)
+from .services import (
+    annotate_vote_scores,
+    cast_vote,
+    get_reputation_summary,
+    get_vote_summary,
+    set_accepted_answer,
 )
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
-    queryset = Question.objects.select_related("author").prefetch_related("tags")
+    queryset = annotate_vote_scores(
+        Question.objects.select_related("author").prefetch_related("tags")
+    )
     serializer_class = QuestionSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = ContentPagination
@@ -53,7 +67,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
     def answers(self, request, pk=None):
         question = self.get_object()
         if request.method == "GET":
-            answers = question.answers.select_related("author")
+            answers = annotate_vote_scores(question.answers.select_related("author"))
             page = self.paginate_queryset(answers)
             if page is not None:
                 return self.get_paginated_response(AnswerSerializer(page, many=True).data)
@@ -77,6 +91,46 @@ class QuestionViewSet(viewsets.ModelViewSet):
             AnswerSerializer(answer).data,
             status=status.HTTP_201_CREATED,
         )
+
+    @action(detail=True, methods=["post", "delete"], url_path="vote")
+    def vote(self, request, pk=None):
+        question = self.get_object()
+        if request.method == "POST":
+            serializer = VoteInputSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            value = serializer.validated_data["value"]
+        else:
+            value = None
+        vote = cast_vote(voter=request.user, question_id=question.pk, value=value)
+        return Response(
+            {
+                "vote": {"value": vote.value} if vote and vote.is_active else None,
+                **get_vote_summary(question),
+            }
+        )
+
+    @action(
+        detail=True,
+        methods=["post", "delete"],
+        url_path=r"answers/(?P<answer_id>[^/.]+)/accept",
+    )
+    def accept_answer(self, request, pk=None, answer_id=None):
+        question = self.get_object()
+        try:
+            answer = set_accepted_answer(
+                question_id=question.pk,
+                answer_id=answer_id,
+                actor=request.user,
+                accepted=request.method == "POST",
+            )
+        except Answer.DoesNotExist as exc:
+            raise Http404 from exc
+        except DjangoValidationError as exc:
+            raise serializers.ValidationError(exc.message_dict or exc.messages) from exc
+        answer = annotate_vote_scores(
+            Answer.objects.select_related("author", "question")
+        ).get(pk=answer.pk)
+        return Response(AnswerSerializer(answer).data)
 
     @action(detail=True, methods=["get", "post"], url_path="comments")
     def comments(self, request, pk=None):
@@ -107,7 +161,7 @@ class AnswerViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = Answer.objects.select_related("author", "question")
+    queryset = annotate_vote_scores(Answer.objects.select_related("author", "question"))
     serializer_class = AnswerSerializer
     permission_classes = [IsAuthenticated]
     http_method_names = ["get", "post", "patch", "delete", "head", "options"]
@@ -138,6 +192,23 @@ class AnswerViewSet(
         return Response(
             CommentReadSerializer(comment).data,
             status=status.HTTP_201_CREATED,
+        )
+
+    @action(detail=True, methods=["post", "delete"], url_path="vote")
+    def vote(self, request, pk=None):
+        answer = self.get_object()
+        if request.method == "POST":
+            serializer = VoteInputSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            value = serializer.validated_data["value"]
+        else:
+            value = None
+        vote = cast_vote(voter=request.user, answer_id=answer.pk, value=value)
+        return Response(
+            {
+                "vote": {"value": vote.value} if vote and vote.is_active else None,
+                **get_vote_summary(answer),
+            }
         )
 
 
@@ -180,3 +251,13 @@ class TagViewSet(viewsets.ModelViewSet):
         if self.action in {"create", "update", "partial_update", "destroy"}:
             return [IsCampusAdministrator()]
         return super().get_permissions()
+
+
+class ReputationSummaryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        user = get_object_or_404(User, pk=user_id)
+        return Response(
+            {"user": ContentAuthorSerializer(user).data, **get_reputation_summary(user)}
+        )

@@ -1,6 +1,13 @@
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from .views import AnswerViewSet, CommentViewSet, QuestionViewSet, TagViewSet
+from .views import (
+    AnswerViewSet,
+    CommentViewSet,
+    QuestionViewSet,
+    ReputationSummaryView,
+    TagViewSet,
+)
 
 
 router = DefaultRouter()
@@ -9,4 +16,7 @@ router.register("answers", AnswerViewSet, basename="answer")
 router.register("comments", CommentViewSet, basename="comment")
 router.register("tags", TagViewSet, basename="tag")
 
-urlpatterns = router.urls
+urlpatterns = [
+    path("users/<int:user_id>/reputation/", ReputationSummaryView.as_view(), name="reputation"),
+    *router.urls,
+]

@@ -4,7 +4,8 @@ from rest_framework import serializers
 
 from apps.accounts.models import User
 
-from .models import Answer, Comment, Question, Tag, normalize_tag_name
+from .models import Answer, Comment, Question, Tag, Vote, normalize_tag_name
+from .services import get_vote_summary
 
 
 class ContentAuthorSerializer(serializers.ModelSerializer):
@@ -16,6 +17,31 @@ class ContentAuthorSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         return " ".join(part for part in (obj.first_name, obj.last_name) if part)
+
+
+class VoteSummaryMixin:
+    def _vote_summary(self, obj):
+        if all(hasattr(obj, field) for field in ("upvote_count", "downvote_count", "score")):
+            return {
+                "upvote_count": obj.upvote_count,
+                "downvote_count": obj.downvote_count,
+                "score": obj.score,
+            }
+        cache = getattr(self, "_vote_summary_cache", None)
+        if cache is None:
+            cache = self._vote_summary_cache = {}
+        if obj.pk not in cache:
+            cache[obj.pk] = get_vote_summary(obj)
+        return cache[obj.pk]
+
+    def get_upvote_count(self, obj):
+        return self._vote_summary(obj)["upvote_count"]
+
+    def get_downvote_count(self, obj):
+        return self._vote_summary(obj)["downvote_count"]
+
+    def get_score(self, obj):
+        return self._vote_summary(obj)["score"]
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -71,7 +97,10 @@ class TagSerializer(serializers.ModelSerializer):
         return instance
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class QuestionSerializer(VoteSummaryMixin, serializers.ModelSerializer):
+    upvote_count = serializers.SerializerMethodField()
+    downvote_count = serializers.SerializerMethodField()
+    score = serializers.SerializerMethodField()
     author = ContentAuthorSerializer(read_only=True)
     tags = serializers.SlugRelatedField(
         many=True,
@@ -92,6 +121,9 @@ class QuestionSerializer(serializers.ModelSerializer):
             "department",
             "status",
             "tags",
+            "upvote_count",
+            "downvote_count",
+            "score",
             "created_at",
             "updated_at",
         )
@@ -108,15 +140,36 @@ class QuestionSerializer(serializers.ModelSerializer):
         return value.strip()
 
 
-class AnswerSerializer(serializers.ModelSerializer):
+class AnswerSerializer(VoteSummaryMixin, serializers.ModelSerializer):
+    upvote_count = serializers.SerializerMethodField()
+    downvote_count = serializers.SerializerMethodField()
+    score = serializers.SerializerMethodField()
     author = ContentAuthorSerializer(read_only=True)
     question = serializers.PrimaryKeyRelatedField(read_only=True)
     body = serializers.CharField(trim_whitespace=True)
 
     class Meta:
         model = Answer
-        fields = ("id", "question", "author", "body", "created_at", "updated_at")
-        read_only_fields = ("id", "question", "author", "created_at", "updated_at")
+        fields = (
+            "id",
+            "question",
+            "author",
+            "body",
+            "is_accepted",
+            "upvote_count",
+            "downvote_count",
+            "score",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = (
+            "id",
+            "question",
+            "author",
+            "is_accepted",
+            "created_at",
+            "updated_at",
+        )
 
     def validate_body(self, value):
         if not value.strip():
@@ -213,3 +266,9 @@ class CommentReadSerializer(serializers.ModelSerializer):
             "updated_at",
         )
         read_only_fields = fields
+
+
+class VoteInputSerializer(serializers.Serializer):
+    value = serializers.ChoiceField(
+        choices=((Vote.Value.DOWNVOTE, "Downvote"), (Vote.Value.UPVOTE, "Upvote"))
+    )

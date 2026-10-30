@@ -129,3 +129,11 @@ REST_FRAMEWORK = {
         "auth_login": "10/minute",
     },
 }
+
+REPUTATION_POINTS = {
+    "question_upvote": 5,
+    "question_downvote": -2,
+    "answer_upvote": 10,
+    "answer_downvote": -2,
+    "answer_accepted": 15,
+}
