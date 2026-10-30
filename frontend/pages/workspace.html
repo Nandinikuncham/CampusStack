@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f8fa" />
+    <title>Your workspace — CampusStack</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
+  </head>
+  <body>
+    <header class="border-b border-line bg-white">
+      <div class="site-shell flex min-h-[72px] items-center justify-between gap-4">
+        <a class="inline-flex items-center gap-3 rounded-lg" href="/" aria-label="CampusStack home">
+          <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+        </a>
+        <button class="btn btn-secondary" type="button" data-logout>Log out</button>
+      </div>
+    </header>
+    <main class="site-shell py-12 sm:py-20">
+      <section class="card mx-auto max-w-2xl" aria-labelledby="workspace-heading">
+        <p class="eyebrow">CampusStack workspace</p>
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <h1 class="text-3xl font-bold tracking-tight" data-workspace-heading>Your workspace</h1>
+          <span class="badge" data-user-role>Checking account</span>
+        </div>
+        <p class="mt-2 text-muted" data-user-name></p>
+        <p class="mt-5 leading-7 text-muted" data-workspace-description>Checking your signed-in session…</p>
+        <div class="alert mt-5" data-workspace-message hidden></div>
+        <a class="btn btn-secondary mt-7" href="/">Return to CampusStack home</a>
+      </section>
+    </main>
+    <script type="module" src="/js/workspace.js"></script>
+  </body>
+</html>

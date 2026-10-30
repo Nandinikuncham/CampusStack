@@ -84,6 +84,14 @@
     @apply rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-sm text-brand-800;
   }
 
+  .form-message-error {
+    @apply border-red-200 bg-red-50 text-red-800;
+  }
+
+  .form-message-success {
+    @apply border-emerald-200 bg-emerald-50 text-emerald-800;
+  }
+
   .empty-state,
   .loading-state {
     @apply rounded-2xl border border-dashed border-line bg-white p-8 text-center text-sm text-muted;

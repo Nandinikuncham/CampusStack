@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f8fa" />
+    <title>Student registration — CampusStack</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
+  </head>
+  <body>
+    <main class="site-shell grid min-h-screen items-center py-10 lg:grid-cols-2 lg:gap-16">
+      <section class="mx-auto w-full max-w-xl" aria-labelledby="registration-title">
+        <a class="mb-8 inline-flex items-center gap-3 rounded-lg" href="/" aria-label="CampusStack home">
+          <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+        </a>
+        <div class="card">
+          <p class="eyebrow">Join your campus</p>
+          <h1 id="registration-title" class="mt-2 text-2xl font-bold tracking-tight">Create a student account</h1>
+          <p class="mt-2 text-sm leading-6 text-muted">Use your college email and the academic dates associated with your batch.</p>
+          <div class="alert mt-5" data-form-message hidden></div>
+          <form class="mt-6 grid gap-x-4 gap-y-4 sm:grid-cols-2" data-registration-form data-registration-type="student" novalidate>
+            <div class="sm:col-span-2">
+              <label class="mb-2 block text-sm font-medium" for="name">Full name</label>
+              <input class="form-field" id="name" name="name" autocomplete="name" required maxlength="301" />
+              <p class="mt-1 text-sm text-red-700" data-field-error="name" hidden></p>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="mb-2 block text-sm font-medium" for="email">College email</label>
+              <input class="form-field" id="email" name="email" type="email" autocomplete="email" required maxlength="254" />
+              <p class="mt-1 text-sm text-red-700" data-field-error="email" hidden></p>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium" for="department">Department</label>
+              <input class="form-field" id="department" name="department" autocomplete="organization-title" required maxlength="120" />
+              <p class="mt-1 text-sm text-red-700" data-field-error="department" hidden></p>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium" for="batch_start_year">Batch start year</label>
+              <input class="form-field" id="batch_start_year" name="batch_start_year" type="number" min="1900" max="2200" required inputmode="numeric" />
+              <p class="mt-1 text-sm text-red-700" data-field-error="batch_start_year" hidden></p>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium" for="batch_end_year">Batch end year</label>
+              <input class="form-field" id="batch_end_year" name="batch_end_year" type="number" min="1900" max="2200" required inputmode="numeric" />
+              <p class="mt-1 text-sm text-red-700" data-field-error="batch_end_year" hidden></p>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium" for="admission_date">Admission date</label>
+              <input class="form-field" id="admission_date" name="admission_date" type="date" required />
+              <p class="mt-1 text-sm text-red-700" data-field-error="admission_date" hidden></p>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="mb-2 block text-sm font-medium" for="expected_graduation_date">Expected graduation date</label>
+              <input class="form-field" id="expected_graduation_date" name="expected_graduation_date" type="date" required />
+              <p class="mt-1 text-sm text-red-700" data-field-error="expected_graduation_date" hidden></p>
+            </div>
+            <div>
+              <div class="mb-2 flex items-center justify-between gap-3">
+                <label class="text-sm font-medium" for="password">Password</label>
+                <button class="text-sm font-medium text-brand-700 underline-offset-4 hover:underline" type="button" aria-controls="password" aria-pressed="false" data-password-toggle>Show</button>
+              </div>
+              <input class="form-field" id="password" name="password" type="password" autocomplete="new-password" required />
+              <p class="mt-1 text-sm text-red-700" data-field-error="password" hidden></p>
+            </div>
+            <div>
+              <label class="mb-2 block text-sm font-medium" for="password_confirmation">Confirm password</label>
+              <input class="form-field" id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required />
+              <p class="mt-1 text-sm text-red-700" data-field-error="password_confirmation" hidden></p>
+            </div>
+            <button class="btn btn-primary w-full sm:col-span-2" type="submit">Create student account</button>
+          </form>
+          <p class="mt-5 text-center text-sm text-muted" data-success-login hidden><a class="font-semibold text-brand-700 underline-offset-4 hover:underline" href="/pages/login.html?registered=student">Continue to log in</a></p>
+          <p class="mt-5 text-center text-sm text-muted">Already registered? <a class="font-semibold text-brand-700 underline-offset-4 hover:underline" href="/pages/login.html">Log in</a></p>
+          <p class="mt-2 text-center text-sm text-muted"><a class="font-semibold text-brand-700 underline-offset-4 hover:underline" href="/pages/register-faculty.html">Faculty registration</a></p>
+        </div>
+      </section>
+      <aside class="hidden max-w-lg lg:block">
+        <p class="eyebrow">Learn together</p>
+        <h2 class="mt-3 text-4xl font-bold leading-tight tracking-tight">Make what you learn useful to your community.</h2>
+        <p class="mt-5 text-lg leading-8 text-muted">Create an account to take part in knowledge sharing across your college.</p>
+      </aside>
+    </main>
+    <script type="module" src="/js/registration.js"></script>
+  </body>
+</html>
