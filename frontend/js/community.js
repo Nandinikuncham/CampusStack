@@ -115,7 +115,11 @@ function renderQuestion(question) {
   headingRow.className = "flex flex-wrap items-start justify-between gap-3";
   const title = document.createElement("h2");
   title.className = "min-w-0 flex-1 text-lg font-semibold leading-7 tracking-tight text-ink sm:text-xl";
-  title.textContent = question.title || "Untitled question";
+  const detailLink = document.createElement("a");
+  detailLink.className = "rounded-sm hover:text-brand-700 focus-visible:outline-2 focus-visible:outline-brand-600";
+  detailLink.href = `/pages/question.html?id=${encodeURIComponent(question.id)}`;
+  detailLink.textContent = question.title || "Untitled question";
+  title.append(detailLink);
   const status = document.createElement("span");
   status.className = "badge shrink-0";
   status.textContent = question.status === "CLOSED" ? "Closed" : "Open";

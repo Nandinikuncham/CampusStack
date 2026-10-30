@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
       studentRegistration: resolve(process.cwd(), "pages/register-student.html"),
       facultyRegistration: resolve(process.cwd(), "pages/register-faculty.html"),
       workspace: resolve(process.cwd(), "pages/workspace.html"),
+      question: resolve(process.cwd(), "pages/question.html"),
     },
     server: {
       proxy: {

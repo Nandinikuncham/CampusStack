@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f8fa" />
+    <meta name="description" content="Read a question and join the CampusStack discussion." />
+    <title>Question — CampusStack</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
+  </head>
+  <body>
+    <header class="border-b border-line bg-white">
+      <div class="site-shell flex min-h-[72px] items-center justify-between gap-4">
+        <a class="inline-flex items-center gap-3 rounded-lg" href="/pages/workspace.html" aria-label="CampusStack community home">
+          <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+        </a>
+        <a class="btn btn-secondary" href="/pages/workspace.html">Back to questions</a>
+      </div>
+    </header>
+
+    <main class="site-shell max-w-5xl py-8 sm:py-12" id="main-content">
+      <div class="mb-5" data-page-message hidden></div>
+      <section class="card" aria-labelledby="question-title" aria-busy="true" data-question-panel>
+        <div class="loading-state">Loading question…</div>
+      </section>
+      <section class="mt-9" aria-labelledby="answers-heading">
+        <div class="mb-5 flex flex-wrap items-baseline justify-between gap-3">
+          <h2 class="text-2xl font-bold tracking-tight" id="answers-heading">Answers <span class="text-lg font-medium text-muted" data-answer-count></span></h2>
+        </div>
+        <div class="mb-5 rounded-xl border border-brand-100 bg-brand-50 px-4 py-3 text-sm text-brand-800" data-closed-message hidden>This question is closed, so new answers cannot be submitted.</div>
+        <div class="mb-5" data-answer-login hidden>
+          <a class="btn btn-primary" href="/pages/login.html">Log in to answer or comment</a>
+        </div>
+        <form class="card mb-5" data-answer-form hidden novalidate>
+          <label class="mb-2 block text-sm font-semibold" for="answer-body">Your answer</label>
+          <textarea class="form-field min-h-36 resize-y" id="answer-body" name="body" rows="5" required placeholder="Share a clear, helpful answer…"></textarea>
+          <p class="mt-2 text-sm text-red-700" data-answer-error hidden></p>
+          <div class="mt-4 flex justify-end"><button class="btn btn-primary" type="submit">Post answer</button></div>
+        </form>
+        <div class="space-y-4" data-answers aria-live="polite" aria-busy="true">
+          <div class="loading-state">Loading answers…</div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/js/question.js"></script>
+  </body>
+</html>
