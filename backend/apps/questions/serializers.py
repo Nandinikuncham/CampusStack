@@ -46,11 +46,17 @@ class VoteSummaryMixin:
 
 class TagSerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(max_length=60, required=False)
+    follower_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Tag
-        fields = ("id", "name", "slug", "description")
-        read_only_fields = ("id",)
+        fields = ("id", "name", "slug", "description", "follower_count")
+        read_only_fields = ("id", "follower_count")
+
+    def get_follower_count(self, obj):
+        if hasattr(obj, "follower_count"):
+            return obj.follower_count
+        return obj.social_followers.count()
 
     def validate(self, attrs):
         name = normalize_tag_name(attrs.get("name", self.instance.name if self.instance else ""))

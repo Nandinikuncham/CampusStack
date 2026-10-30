@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "apps.academics.apps.AcademicsConfig",
     "apps.audit.apps.AuditConfig",
     "apps.questions.apps.QuestionsConfig",
+    "apps.social.apps.SocialConfig",
 ]
 
 MIDDLEWARE = [

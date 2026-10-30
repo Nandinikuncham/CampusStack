@@ -15,6 +15,8 @@ class StudentProfile(models.Model):
     batch_end_year = models.PositiveSmallIntegerField()
     admission_date = models.DateField()
     expected_graduation_date = models.DateField()
+    biography = models.CharField(max_length=500, blank=True)
+    profile_image_url = models.URLField(max_length=500, blank=True)
 
     class Meta:
         constraints = [
@@ -61,6 +63,8 @@ class FacultyProfile(models.Model):
     )
     department = models.CharField(max_length=120)
     designation = models.CharField(max_length=120)
+    biography = models.CharField(max_length=500, blank=True)
+    profile_image_url = models.URLField(max_length=500, blank=True)
     approval_status = models.CharField(
         max_length=10,
         choices=ApprovalStatus.choices,

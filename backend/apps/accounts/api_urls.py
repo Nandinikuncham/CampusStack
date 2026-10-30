@@ -1,5 +1,6 @@
-from django.urls import path
-from django.urls import include
+from django.urls import include, path
+
+from apps.profiles.views import CurrentProfileView, PublicProfileView
 
 from .views import (
     CSRFTokenView,
@@ -20,5 +21,8 @@ urlpatterns = [
     path("auth/login/", LoginView.as_view(), name="login"),
     path("auth/logout/", LogoutView.as_view(), name="logout"),
     path("auth/me/", CurrentUserView.as_view(), name="me"),
+    path("users/<int:user_id>/profile/", PublicProfileView.as_view(), name="public-profile"),
+    path("profiles/me/", CurrentProfileView.as_view(), name="current-profile"),
+    path("", include("apps.social.urls")),
     path("", include("apps.questions.api_urls")),
 ]
