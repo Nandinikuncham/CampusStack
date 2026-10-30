@@ -1,4 +1,5 @@
 from django.urls import path
+from django.urls import include
 
 from .views import (
     CSRFTokenView,
@@ -19,4 +20,5 @@ urlpatterns = [
     path("auth/login/", LoginView.as_view(), name="login"),
     path("auth/logout/", LogoutView.as_view(), name="logout"),
     path("auth/me/", CurrentUserView.as_view(), name="me"),
+    path("", include("apps.questions.api_urls")),
 ]

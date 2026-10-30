@@ -20,6 +20,7 @@ backend/
     profiles/             Student/faculty profiles and faculty approval
     academics/            Academic calendar and progression
     audit/                Sensitive-action audit logging
+    questions/            Questions, tags, answers and comments
 frontend/
   pages/                  HTML pages
   components/             Reusable UI components
@@ -38,7 +39,7 @@ python -m venv .venv
 python -m pip install -r backend\requirements.txt
 ```
 
-Set a development secret key in the current shell before running Django. Do not use a checked-in or committed secret:
+For stable local sessions, set a development secret key in the current shell. If it is omitted while `DJANGO_DEBUG=True`, Django generates a random, process-local development key. Production must set `DJANGO_DEBUG=False` and supply `DJANGO_SECRET_KEY`; startup fails if the key is missing. Never commit a real secret:
 
 ```powershell
 $env:DJANGO_SECRET_KEY = (python -c "import secrets; print(secrets.token_urlsafe(50))")
@@ -59,6 +60,8 @@ python backend\manage.py runserver
 ```
 
 The API root namespace is `/api/v1/`. Authentication endpoints and CSRF usage are documented in [docs/authentication.md](docs/authentication.md). Create the first administrator only from a trusted local shell with `python backend\manage.py createsuperuser`; this uses Django's custom manager to assign the `ADMIN` role. There is no public administrator registration.
+
+Questions, tags, answers and comments API behavior is documented in [docs/content-api.md](docs/content-api.md).
 
 Start Tailwind's watcher from the repository root after installing its CLI in the frontend phase:
 
