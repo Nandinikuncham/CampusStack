@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f8fa" />
+    <meta name="description" content="View a CampusStack community member's public profile and contributions." />
+    <title>Profile — CampusStack</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
+  </head>
+  <body>
+    <header class="border-b border-line bg-white">
+      <div class="site-shell flex min-h-[72px] items-center justify-between gap-4">
+        <a class="inline-flex items-center gap-3 rounded-lg" href="/pages/workspace.html" aria-label="CampusStack community home">
+          <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+        </a>
+        <nav class="flex items-center gap-2" aria-label="Account navigation">
+          <a class="btn btn-secondary" href="/pages/following.html">Following & tags</a>
+          <a class="btn btn-secondary" href="/pages/workspace.html">Community</a>
+        </nav>
+      </div>
+    </header>
+    <main class="site-shell max-w-5xl py-8 sm:py-12" id="main-content">
+      <div class="mb-5" data-profile-message hidden></div>
+      <div class="loading-state" data-profile-loading>Loading profile…</div>
+      <div data-profile-content hidden></div>
+    </main>
+    <script type="module" src="/js/profile.js"></script>
+  </body>
+</html>

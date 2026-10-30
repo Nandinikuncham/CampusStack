@@ -99,7 +99,14 @@ function authorLine(author) {
   const line = element("p", "text-sm text-muted");
   const name = author?.name || "Campus member";
   const role = author?.account_type ? ` · ${author.account_type.toLowerCase()}` : "";
-  line.textContent = `${name}${role}`;
+  if (author?.id) {
+    const link = element("a", "font-semibold text-brand-700 hover:underline", name);
+    link.href = `/pages/profile.html?id=${encodeURIComponent(author.id)}`;
+    line.append(link);
+  } else {
+    line.append(document.createTextNode(name));
+  }
+  line.append(document.createTextNode(role));
   return line;
 }
 
@@ -324,7 +331,14 @@ function renderCommentsBlock(targetType, targetId, comments) {
 function renderComment(comment, targetType, targetId) {
   const item = element("article", "py-3 first:pt-1");
   const header = element("div", "flex flex-wrap items-center justify-between gap-2");
-  const author = element("p", "text-xs font-semibold text-muted", comment.author?.name || "Campus member");
+  const author = element("p", "text-xs font-semibold text-muted");
+  if (comment.author?.id) {
+    const link = element("a", "text-brand-700 hover:underline", comment.author.name || "Campus member");
+    link.href = `/pages/profile.html?id=${encodeURIComponent(comment.author.id)}`;
+    author.append(link);
+  } else {
+    author.textContent = comment.author?.name || "Campus member";
+  }
   const time = element("time", "text-xs text-muted", formatDate(comment.created_at));
   time.dateTime = comment.created_at || "";
   header.append(author, time);
@@ -439,7 +453,15 @@ function renderAnswers() {
 function renderAnswer(answer) {
   const card = element("article", `card p-5 sm:p-6 ${answer.is_accepted ? "border-emerald-300 bg-emerald-50/40" : ""}`);
   const top = element("div", "flex flex-wrap items-start justify-between gap-3");
-  const heading = element("h3", "text-base font-semibold", `Answer by ${answer.author?.name || "Campus member"}`);
+  const heading = element("h3", "text-base font-semibold");
+  heading.append(document.createTextNode("Answer by "));
+  if (answer.author?.id) {
+    const author = element("a", "text-brand-700 hover:underline", answer.author.name || "Campus member");
+    author.href = `/pages/profile.html?id=${encodeURIComponent(answer.author.id)}`;
+    heading.append(author);
+  } else {
+    heading.append(document.createTextNode(answer.author?.name || "Campus member"));
+  }
   top.append(heading);
   if (answer.is_accepted) top.append(element("span", "badge border border-emerald-200 bg-emerald-50 text-emerald-800", "Accepted answer"));
   card.append(top);

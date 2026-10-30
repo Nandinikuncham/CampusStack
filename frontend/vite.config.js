@@ -14,12 +14,14 @@ export default defineConfig(({ mode }) => {
       facultyRegistration: resolve(process.cwd(), "pages/register-faculty.html"),
       workspace: resolve(process.cwd(), "pages/workspace.html"),
       question: resolve(process.cwd(), "pages/question.html"),
+      profile: resolve(process.cwd(), "pages/profile.html"),
+      following: resolve(process.cwd(), "pages/following.html"),
     },
     server: {
       proxy: {
         "/api": {
           target: env.VITE_DJANGO_PROXY_TARGET || "http://127.0.0.1:8000",
-          changeOrigin: true,
+          changeOrigin: false,
         },
       },
     },

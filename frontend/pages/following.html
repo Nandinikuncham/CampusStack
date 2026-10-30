@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f8fa" />
+    <meta name="description" content="Manage followed CampusStack members and tags." />
+    <title>Following & tags — CampusStack</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/campusstack-mark.svg" />
+  </head>
+  <body>
+    <header class="border-b border-line bg-white">
+      <div class="site-shell flex min-h-[72px] items-center justify-between gap-4">
+        <a class="inline-flex items-center gap-3 rounded-lg" href="/pages/workspace.html" aria-label="CampusStack community home">
+          <img class="size-10" src="/assets/campusstack-mark.svg" alt="" />
+          <span class="text-lg font-bold tracking-tight">Campus<span class="text-brand-700">Stack</span></span>
+        </a>
+        <nav class="flex items-center gap-2" aria-label="Account navigation">
+          <a class="btn btn-secondary" href="/pages/profile.html">My profile</a>
+          <a class="btn btn-secondary" href="/pages/workspace.html">Community</a>
+        </nav>
+      </div>
+    </header>
+    <main class="site-shell max-w-5xl py-8 sm:py-12" id="main-content">
+      <div class="mb-5" data-following-message hidden></div>
+      <div class="loading-state" data-following-loading>Loading your community connections…</div>
+      <div class="space-y-8" data-following-content hidden>
+        <section class="card" aria-labelledby="following-people-title">
+          <div class="flex flex-wrap items-baseline justify-between gap-3">
+            <div>
+              <p class="eyebrow">Your community</p>
+              <h1 class="mt-2 text-2xl font-bold tracking-tight" id="following-people-title">People you follow</h1>
+            </div>
+            <span class="text-sm text-muted" data-following-count></span>
+          </div>
+          <div class="mt-5 space-y-3" data-following-users aria-live="polite" aria-busy="true"></div>
+          <nav class="mt-5 flex items-center justify-between gap-3" data-users-pagination hidden aria-label="People pages">
+            <button class="btn btn-secondary" type="button" data-users-previous>Previous</button>
+            <span class="text-sm text-muted" data-users-page></span>
+            <button class="btn btn-secondary" type="button" data-users-next>Next</button>
+          </nav>
+        </section>
+
+        <section class="card" id="followed-tags" aria-labelledby="followed-tags-title">
+          <div class="flex flex-wrap items-baseline justify-between gap-3">
+            <div>
+              <p class="eyebrow">Topics you follow</p>
+              <h2 class="mt-2 text-2xl font-bold tracking-tight" id="followed-tags-title">Followed tags</h2>
+            </div>
+            <span class="text-sm text-muted" data-followed-tags-count></span>
+          </div>
+          <div class="mt-5 space-y-3" data-followed-tags aria-live="polite" aria-busy="true"></div>
+          <nav class="mt-5 flex items-center justify-between gap-3" data-followed-tags-pagination hidden aria-label="Followed tag pages">
+            <button class="btn btn-secondary" type="button" data-followed-tags-previous>Previous</button>
+            <span class="text-sm text-muted" data-followed-tags-page></span>
+            <button class="btn btn-secondary" type="button" data-followed-tags-next>Next</button>
+          </nav>
+        </section>
+
+        <section class="card" aria-labelledby="tag-directory-title">
+          <div class="flex flex-wrap items-baseline justify-between gap-3">
+            <div>
+              <p class="eyebrow">Explore topics</p>
+              <h2 class="mt-2 text-2xl font-bold tracking-tight" id="tag-directory-title">Tag directory</h2>
+            </div>
+            <span class="text-sm text-muted" data-tag-directory-count></span>
+          </div>
+          <div class="mt-5 grid gap-3 sm:grid-cols-2" data-tag-directory aria-live="polite" aria-busy="true"></div>
+          <nav class="mt-5 flex items-center justify-between gap-3" data-tag-directory-pagination hidden aria-label="Tag directory pages">
+            <button class="btn btn-secondary" type="button" data-tags-previous>Previous</button>
+            <span class="text-sm text-muted" data-tags-page></span>
+            <button class="btn btn-secondary" type="button" data-tags-next>Next</button>
+          </nav>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="/js/following.js"></script>
+  </body>
+</html>

@@ -146,7 +146,17 @@ function renderQuestion(question) {
   const authorType = question.author?.account_type
     ? ` · ${question.author.account_type.toLowerCase()}`
     : "";
-  author.textContent = `Asked by ${authorName}${authorType}`;
+  author.append(document.createTextNode("Asked by "));
+  if (question.author?.id) {
+    const profileLink = document.createElement("a");
+    profileLink.className = "font-semibold text-brand-700 hover:underline";
+    profileLink.href = `/pages/profile.html?id=${encodeURIComponent(question.author.id)}`;
+    profileLink.textContent = authorName;
+    author.append(profileLink);
+  } else {
+    author.append(document.createTextNode(authorName));
+  }
+  author.append(document.createTextNode(authorType));
   const metadata = document.createElement("div");
   metadata.className = "flex flex-wrap items-center gap-x-4 gap-y-1";
   const created = document.createElement("time");
