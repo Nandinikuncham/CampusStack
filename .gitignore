@@ -1,0 +1,28 @@
+# Python
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Secrets and environment settings
+.env
+.env.*
+!.env.example
+
+# JavaScript dependencies and generated frontend output
+node_modules/
+frontend/css/output.css
+
+# Local databases, logs, caches and temporary files
+*.sqlite3
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.tmp
+*.temp
+*.bak
+*.swp
+Thumbs.db
+Desktop.ini
